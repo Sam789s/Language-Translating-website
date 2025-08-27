@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Detection and Translation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-8 col-lg-6 box p-4 shadow rounded">
+            <h1 class="text-center mb-4">Language Detection and Translation</h1>
+
+            <form action="/trans" method="post" class="mt-4">
+                <div class="form-group">
+                    <label for="text">Enter Text</label>
+                    <textarea name="text" id="text" rows="4" required class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="lang">Select Language</label>
+                    <select name="lang" id="lang" required class="form-control">
+                        {% for code, name in languages.items() %}
+                            <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Translate</button>
+            </form>
+
+            {% if detected_lang %}
+            <div class="result mt-4 p-3 bg-light border rounded">
+                <h5>Detected Language:</h5>
+                <p><strong>{{ detected_lang }}</strong> ({{ detection_code }})</p>
+            </div>
+            {% endif %}
+
+            {% if translated_text %}
+            <div class="result mt-4 p-3 bg-light border rounded">
+                <h5>Translated Text:</h5>
+                <p>{{ translated_text }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
